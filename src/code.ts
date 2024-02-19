@@ -1,3 +1,9 @@
+import { pascal } from "case";
+
+function removeSpecialCharsAndPascalCase(str: string) {
+  return pascal(str.replace(/[^a-zA-Z0-9]/g, ""));
+}
+
 figma.showUI(__html__, { width: 480, height: 480 });
 function getSelectionStyle() {
   const selection = figma.currentPage.selection;
@@ -6,7 +12,9 @@ function getSelectionStyle() {
   const textStyle = textStyleId ? figma.getStyleById(textStyleId) : "";
   const fillStyle = fillStyleId ? figma.getStyleById(fillStyleId) : "";
 
-  const colorStyleCode = fillStyle ? `vars.colors["${fillStyle.name}"]` : "";
+  const colorStyleCode = fillStyle
+    ? `vars.colors.${removeSpecialCharsAndPascalCase(fillStyle.name)}`
+    : "";
   return {
     textStyle,
     fillStyle,
